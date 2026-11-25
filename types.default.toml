@@ -1,0 +1,71 @@
+# KeyCatch – Eintragstypen
+#
+# Jeder [[typ]] erzeugt eine eigene Eingabemaske.
+# Felder:  key   = interner Name (nicht nachträglich ändern, sonst gehen Werte verloren)
+#          label = Beschriftung in der Maske
+#          kind  = text | multiline | date | url
+#          hint  = grauer Hilfetext im leeren Feld (optional)
+# title_from = Felder, aus denen der Titel vorgeschlagen wird.
+
+[[typ]]
+name = "API-Key"
+secret_label = "API-Key"
+title_from = ["dienst", "key_name"]
+fields = [
+  { key = "dienst",         label = "Dienst",            hint = "z. B. OpenRouter, Cloudflare" },
+  { key = "key_name",       label = "Key-Name",          hint = "Name, den der Key beim Anbieter hat" },
+  { key = "konto",          label = "Konto",             hint = "Benutzer oder E-Mail beim Anbieter" },
+  { key = "berechtigungen", label = "Berechtigungen",    kind = "multiline", hint = "Scopes / Rechte" },
+  { key = "ablauf",         label = "Läuft ab am",       kind = "date", hint = "TT.MM.JJJJ oder leer = unbegrenzt" },
+  { key = "verwendet_in",   label = "Verwendet in",      hint = "z. B. n8n, Open WebUI" },
+  { key = "url",            label = "Verwaltungsseite",  kind = "url" },
+  { key = "notiz",          label = "Notiz",             kind = "multiline" },
+]
+
+[[typ]]
+name = "App-Passwort"
+secret_label = "App-Passwort"
+title_from = ["dienst", "verwendung"]
+fields = [
+  { key = "dienst",     label = "Dienst",           hint = "z. B. mailbox.org, Google" },
+  { key = "konto",      label = "Konto / E-Mail" },
+  { key = "verwendung", label = "Verwendet für",    hint = "App oder Gerät, z. B. eM Client" },
+  { key = "ablauf",     label = "Läuft ab am",      kind = "date", hint = "TT.MM.JJJJ oder leer = unbegrenzt" },
+  { key = "url",        label = "Verwaltungsseite", kind = "url" },
+  { key = "notiz",      label = "Notiz",            kind = "multiline" },
+]
+
+[[typ]]
+name = "Token"
+secret_label = "Token"
+title_from = ["dienst", "token_name"]
+fields = [
+  { key = "dienst",         label = "Dienst" },
+  { key = "token_name",     label = "Token-Name" },
+  { key = "konto",          label = "Konto" },
+  { key = "berechtigungen", label = "Berechtigungen", kind = "multiline" },
+  { key = "ablauf",         label = "Läuft ab am",    kind = "date", hint = "TT.MM.JJJJ oder leer = unbegrenzt" },
+  { key = "verwendet_in",   label = "Verwendet in" },
+  { key = "url",            label = "Verwaltungsseite", kind = "url" },
+  { key = "notiz",          label = "Notiz",          kind = "multiline" },
+]
+
+[[typ]]
+name = "SSH-Key"
+secret_label = "Privater Schlüssel / Passphrase"
+title_from = ["name", "host"]
+fields = [
+  { key = "name",        label = "Bezeichnung" },
+  { key = "host",        label = "Host / Server",  hint = "z. B. 192.168.10.221" },
+  { key = "benutzer",    label = "Benutzer" },
+  { key = "public_key",  label = "Öffentlicher Schlüssel", kind = "multiline" },
+  { key = "fingerprint", label = "Fingerprint" },
+  { key = "notiz",       label = "Notiz",          kind = "multiline" },
+]
+
+[[typ]]
+name = "Sonstiges"
+secret_label = "Geheimnis"
+fields = [
+  { key = "notiz", label = "Notiz", kind = "multiline" },
+]

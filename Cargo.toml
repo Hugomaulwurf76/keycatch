@@ -1,0 +1,53 @@
+[package]
+name = "keycatch"
+version = "0.4.2"
+edition = "2024"
+rust-version = "1.92"
+description = "Speichert API-Keys und App-Passwörter per Tastenkombination verschlüsselt"
+license = "MIT"
+
+[dependencies]
+eframe = "0.37"
+arboard = { version = "3", features = ["wayland-data-control"] }
+argon2 = { version = "0.6", default-features = false, features = ["alloc", "zeroize"] }
+chacha20poly1305 = { version = "0.11", default-features = false, features = ["alloc", "zeroize"] }
+getrandom = "0.4"
+hkdf = "0.13"
+sha2 = "0.11"
+keyring-core = "1.1"
+rfd = { version = "0.18", default-features = false, features = ["xdg-portal", "wayland"] }
+zeroize = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+directories = "6"
+jiff = "1"
+x25519-dalek = { version = "3", features = ["static_secrets"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+linux-keyutils-keyring-store = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows-native-keyring-store = "1.1"
+tray-icon = "0.26"
+global-hotkey = "0.10"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }
+
+[target.'cfg(windows)'.build-dependencies]
+winresource = "0.1"
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
+codegen-units = 1
+
+# Argon2 ist ohne Optimierung extrem langsam – auch im Test-/Debug-Build optimieren.
+[profile.dev.package.argon2]
+opt-level = 3
+
+[profile.dev.package.blake2]
+opt-level = 3
